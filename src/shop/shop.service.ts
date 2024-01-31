@@ -1,14 +1,18 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { InjectDataSource } from '@nestjs/typeorm';
+import { DataSource } from 'typeorm';
 
 import ShopItem from './interfaces/shop-item.interface';
+import UpdateShopItemDto from './dto/update-shop-item.dto';
 
 import { data } from './database/shop.database';
-import UpdateShopItemDto from './dto/update-shop-item.dto';
 
 @Injectable()
 export class ShopService {
-    getAllShopItems(): ShopItem[] {
-        return data;
+    constructor(@InjectDataSource() private readonly dataSource: DataSource) { }
+
+    async getAllShopItems(): Promise<ShopItem[]> {
+        return this.dataSource.query("SELECT * from products;");
     }
 
     getSpecificShopItem(id: string): ShopItem | null {
@@ -16,12 +20,11 @@ export class ShopService {
         return foundItem;
     }
 
-    createShopItem(shopItem: ShopItem): ShopItem[] {
+    createShopItem(shopItem: ShopItem) {
         data.push(shopItem);
-        return data;
     }
 
-    modifyShopItem(id: string, shopItem: UpdateShopItemDto): ShopItem[] {
+    modifyShopItem(id: string, shopItem: UpdateShopItemDto) {
         const foundItemIndex: number = data.findIndex((item) => item.id === Number(id))
         let updatedItem = {
             id: Number(id),
@@ -30,12 +33,13 @@ export class ShopService {
             price: shopItem.price
         }
         data.splice(foundItemIndex, 1, updatedItem)
-        return data;
     }
 
-    deleteShopItem(id: string, shopItem: any) {
+    deleteShopItem(id: string) {
         const foundItemIndex: number = data.findIndex((item) => item.id === Number(id))
+        if (foundItemIndex === -1) {
+            throw new HttpException('This id doesn\'t exist', HttpStatus.NOT_FOUND)
+        }
         data.splice(foundItemIndex, 1);
-        return data;
     }
 }

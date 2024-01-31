@@ -1,10 +1,10 @@
 import { Controller, Get, Post, Put, Delete, Body, Param } from '@nestjs/common';
-//SERVICE
+//SERVICES
 import { ShopService } from './shop.service';
-//DTO
+//DTOS
 import CreateShopItemDto from './dto/create-shop-item.dto';
 import UpdateShopItemDto from './dto/update-shop-item.dto';
-//INTERFACE
+//INTERFACES
 import ShopItem from './interfaces/shop-item.interface';
 
 @Controller("shop")
@@ -32,7 +32,7 @@ export class ShopController {
     }
 
     @Delete(":id")
-    async deleteShopItem(@Param("id") id: string, @Body() shopItem: any) {
-        return this.shopService.deleteShopItem(id, shopItem)
+    async deleteShopItem(@Param("id") id: string) {
+        return this.shopService.deleteShopItem(id)
     }
 }
