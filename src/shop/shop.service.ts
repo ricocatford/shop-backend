@@ -6,6 +6,7 @@ import ShopItem from './interfaces/shop-item.interface';
 import UpdateShopItemDto from './dto/update-shop-item.dto';
 
 import { data } from './database/shop.database';
+import { ResultSetHeader } from 'mysql2';
 
 @Injectable()
 export class ShopService {
@@ -15,31 +16,27 @@ export class ShopService {
         return this.dataSource.query("SELECT * from products;");
     }
 
-    getSpecificShopItem(id: string): ShopItem | null {
-        const foundItem: ShopItem | null = data.find((item) => item.id === Number(id)) || null
-        return foundItem;
+    async getSpecificShopItem(id: string): Promise<ShopItem> {
+        return this.dataSource.query(`SELECT * from products WHERE id="${id}";`);
     }
 
-    createShopItem(shopItem: ShopItem) {
-        data.push(shopItem);
+    async createShopItem(shopItem: ShopItem) {
+        this.dataSource.query(`INSERT INTO products (id, name, description, price) VALUES("${shopItem.id}", "${shopItem.name}", "${shopItem.description}", ${shopItem.price});`);
     }
 
-    modifyShopItem(id: string, shopItem: UpdateShopItemDto) {
-        const foundItemIndex: number = data.findIndex((item) => item.id === Number(id))
-        let updatedItem = {
-            id: Number(id),
-            name: shopItem.name,
-            description: shopItem.description,
-            price: shopItem.price
+    async modifyShopItem(id: string, shopItem: UpdateShopItemDto) {
+        const queryResult: ResultSetHeader = await this.dataSource.query<ResultSetHeader>(`UPDATE products SET name="${shopItem.name}", description="${shopItem.description}", price=${shopItem.price} WHERE id="${id}";`)
+        const affectedRows = queryResult.affectedRows;
+        if (affectedRows === 0) {
+            throw new HttpException("Not modified.", HttpStatus.NOT_MODIFIED)
         }
-        data.splice(foundItemIndex, 1, updatedItem)
     }
 
-    deleteShopItem(id: string) {
-        const foundItemIndex: number = data.findIndex((item) => item.id === Number(id))
-        if (foundItemIndex === -1) {
-            throw new HttpException('This id doesn\'t exist', HttpStatus.NOT_FOUND)
+    async deleteShopItem(id: string) {
+        const queryResult: ResultSetHeader = await this.dataSource.query<ResultSetHeader>(`DELETE FROM products WHERE id="${id}";`);
+        const affectedRows = queryResult.affectedRows;
+        if (affectedRows === 0) {
+            throw new HttpException("Not modified.", HttpStatus.NOT_MODIFIED)
         }
-        data.splice(foundItemIndex, 1);
     }
 }

@@ -17,22 +17,22 @@ export class ShopController {
     }
 
     @Get(":id")
-    async getSpecificShopItem(@Param("id") id: string) {
+    async getSpecificShopItem(@Param("id") id: string): Promise<ShopItem> {
         return this.shopService.getSpecificShopItem(id);
     }
 
     @Post()
-    async createShopItem(@Body() createShopItemDto: CreateShopItemDto) {
+    async createShopItem(@Body() createShopItemDto: CreateShopItemDto): Promise<void> {
         return this.shopService.createShopItem(createShopItemDto);
     }
 
     @Put(":id")
-    async modifyShopItem(@Param("id") id: string, @Body() updateShopItemDto: UpdateShopItemDto) {
+    async modifyShopItem(@Param("id") id: string, @Body() updateShopItemDto: UpdateShopItemDto): Promise<void> {
         return this.shopService.modifyShopItem(id, updateShopItemDto);
     }
 
     @Delete(":id")
-    async deleteShopItem(@Param("id") id: string) {
+    async deleteShopItem(@Param("id") id: string): Promise<void> {
         return this.shopService.deleteShopItem(id)
     }
 }
