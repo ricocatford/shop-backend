@@ -5,7 +5,6 @@ import { DataSource } from 'typeorm';
 import ShopItem from './interfaces/shop-item.interface';
 import UpdateShopItemDto from './dto/update-shop-item.dto';
 
-import { data } from './database/shop.database';
 import { ResultSetHeader } from 'mysql2';
 
 @Injectable()
@@ -28,7 +27,7 @@ export class ShopService {
         const queryResult: ResultSetHeader = await this.dataSource.query<ResultSetHeader>(`UPDATE products SET name="${shopItem.name}", description="${shopItem.description}", price=${shopItem.price} WHERE id="${id}";`)
         const affectedRows = queryResult.affectedRows;
         if (affectedRows === 0) {
-            throw new HttpException("Not modified.", HttpStatus.NOT_MODIFIED)
+            throw new HttpException("Not modified.", HttpStatus.NOT_FOUND)
         }
     }
 
@@ -36,7 +35,7 @@ export class ShopService {
         const queryResult: ResultSetHeader = await this.dataSource.query<ResultSetHeader>(`DELETE FROM products WHERE id="${id}";`);
         const affectedRows = queryResult.affectedRows;
         if (affectedRows === 0) {
-            throw new HttpException("Not modified.", HttpStatus.NOT_MODIFIED)
+            throw new HttpException("Not modified.", HttpStatus.NOT_FOUND)
         }
     }
 }
