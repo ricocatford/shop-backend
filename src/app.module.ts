@@ -2,9 +2,10 @@ import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { ShopController } from './shop/shop.controller';
-import { ShopService } from './shop/shop.service';
+import { ShopController } from './shop/api/shop.controller';
+import { ShopService } from './shop/application/shop.service';
 import { DataSource } from 'typeorm';
+import { ShopSqlRepository } from './shop/infrastructure/shop.sql.repository';
 
 @Module({
   imports: [TypeOrmModule.forRoot({
@@ -18,7 +19,7 @@ import { DataSource } from 'typeorm';
     synchronize: true,
   }),],
   controllers: [AppController, ShopController],
-  providers: [AppService, ShopService],
+  providers: [AppService, ShopService, ShopSqlRepository],
 })
 
 export class AppModule {
