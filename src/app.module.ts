@@ -4,11 +4,17 @@ import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { DataSource } from 'typeorm';
 
+import { AuthModule } from './auth/auth.module';
+
 import { ShopController } from './shop/api/shop.controller';
 import { ShopService } from './shop/application/shop.service';
 import { ShopRepository } from './shop/domain/shop-repository';
 import { ShopSqlRepository } from './shop/infrastructure/shop.sql.repository';
-import { AuthModule } from './auth/auth.module';
+
+import { UserController } from './user/api/user.controller';
+import { UserService } from './user/application/user.service';
+import { UserRepository } from './user/domain/user-repository';
+import { UserSqlRepository } from './user/infrastructure/user.sql.repository';
 
 @Module({
 	imports: [TypeOrmModule.forRoot({
@@ -21,11 +27,13 @@ import { AuthModule } from './auth/auth.module';
 		entities: [],
 		synchronize: true,
 	}), AuthModule,],
-	controllers: [AppController, ShopController],
+	controllers: [AppController, ShopController, UserController],
 	providers: [
 		AppService,
 		ShopService,
-		{ provide: ShopRepository, useClass: ShopSqlRepository }
+		{ provide: ShopRepository, useClass: ShopSqlRepository },
+		UserService,
+		{ provide: UserRepository, useClass: UserSqlRepository }
 	],
 })
 

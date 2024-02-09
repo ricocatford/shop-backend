@@ -1,12 +1,9 @@
 import { Controller, Get, Post, Put, Delete, Body, Param, HttpException, HttpStatus } from '@nestjs/common';
-//SERVICES
+
 import { ShopService } from '../application/shop.service';
-//DTOS
+import Product from '../domain/product';
 import { UpdateProductDto } from '../domain/dto/update-product.dto';
 import { CreateProductDto } from '../domain/dto/create-product.dto';
-
-//INTERFACES
-import Product from '../domain/product';
 import { UpdateResult } from 'src/shared/result/domain/update.result';
 @Controller("shop")
 export class ShopController {
@@ -29,7 +26,7 @@ export class ShopController {
 
     @Put(":id")
     async modifyShopItem(@Param("id") id: string, @Body() updateShopItemDto: UpdateProductDto): Promise<void> {
-        const result: UpdateResult = await this.shopService.modifyProductById(id, updateShopItemDto);
+        const result: UpdateResult = await this.shopService.updateProductById(id, updateShopItemDto);
         if (result === UpdateResult.NotFound) {
             throw new HttpException("Not modified.", HttpStatus.NOT_FOUND)
         }

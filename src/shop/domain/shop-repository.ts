@@ -10,7 +10,7 @@ export abstract class ShopRepository {
 
     abstract createProduct(product: CreateProductDto): void
 
-    abstract modifyProductById(id: string, product: UpdateProductDto): Promise<UpdateResult>
+    abstract updateProductById(id: string, product: UpdateProductDto): Promise<UpdateResult>
 
     abstract deleteProductById(id: string): Promise<UpdateResult>
 }

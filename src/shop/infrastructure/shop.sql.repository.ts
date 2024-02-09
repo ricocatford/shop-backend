@@ -25,7 +25,7 @@ export class ShopSqlRepository implements ShopRepository {
         this.dataSource.query(`INSERT INTO products (id, name, description, price) VALUES("${product.id}", "${product.name}", "${product.description}", ${product.price});`);
     }
 
-    async modifyProductById(id: string, product: UpdateProductDto): Promise<UpdateResult> {
+    async updateProductById(id: string, product: UpdateProductDto): Promise<UpdateResult> {
         const queryResult: ResultSetHeader = await this.dataSource.query<ResultSetHeader>(`UPDATE products SET name="${product.name}", description="${product.description}", price=${product.price} WHERE id="${id}";`)
         const affectedRows = queryResult.affectedRows;
         if (affectedRows === 0) {
