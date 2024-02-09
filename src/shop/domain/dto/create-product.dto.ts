@@ -1,5 +1,5 @@
-export default class CreateShopItemDto {
-    id: number;
+export class CreateProductDto {
+    id: string
     name: string;
     description: string;
     price: number;

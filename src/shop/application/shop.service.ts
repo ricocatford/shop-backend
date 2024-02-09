@@ -1,32 +1,34 @@
 import { Injectable } from '@nestjs/common';
 
-import ShopItem from '../domain/shop-item';
-import UpdateShopItemDto from '../domain/dto/update-shop-item.dto';
+import Product from '../domain/product';
+import { UpdateProductDto } from '../domain/dto/update-product.dto';
+import { CreateProductDto } from '../domain/dto/create-product.dto';
 
-import { ShopSqlRepository } from '../infrastructure/shop.sql.repository';
 import { UpdateResult } from 'src/shared/result/domain/update.result';
+import { ShopRepository } from '../domain/shop-repository';
 
 @Injectable()
 export class ShopService {
-    constructor(private readonly shopRepository: ShopSqlRepository) { }
+    constructor(private readonly shopRepository: ShopRepository) { }
 
-    async getAllShopItems(): Promise<ShopItem[]> {
-        return this.shopRepository.getAllShopItems();
+    async getAllProducts(): Promise<Product[]> {
+        return this.shopRepository.getAllProducts();
     }
 
-    async getSpecificShopItem(id: string): Promise<ShopItem> {
-        return this.shopRepository.getSpecificShopItem(id);
+    async getProduct(id: string): Promise<Product> {
+        return this.shopRepository.getProductById(id);
     }
 
-    async createShopItem(shopItem: ShopItem): Promise<void> {
-        this.shopRepository.createShopItem(shopItem);
+    async createProduct(product: CreateProductDto): Promise<void> {
+        this.shopRepository.
+            createProduct(product);
     }
 
-    async modifyShopItem(id: string, shopItem: UpdateShopItemDto): Promise<UpdateResult> {
-        return this.shopRepository.modifyShopItem(id, shopItem)
+    async modifyProductById(id: string, product: UpdateProductDto): Promise<UpdateResult> {
+        return this.shopRepository.modifyProductById(id, product)
     }
 
-    async deleteShopItem(id: string): Promise<UpdateResult> {
-        return this.shopRepository.deleteShopItem(id);
+    async deleteProductById(id: string): Promise<UpdateResult> {
+        return this.shopRepository.deleteProductById(id);
     }
 }

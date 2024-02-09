@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 
-import ShopItem from './shop/domain/shop-item';
+import Product from './shop/domain/product';
 
 @Injectable()
 export class AppService { }

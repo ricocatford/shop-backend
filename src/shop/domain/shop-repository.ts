@@ -1,14 +1,16 @@
-import UpdateShopItemDto from "./dto/update-shop-item.dto";
-import ShopItem from "./shop-item";
+import Product from "./product";
+import { UpdateProductDto } from "./dto/update-product.dto";
+import { CreateProductDto } from "./dto/create-product.dto";
+import { UpdateResult } from "src/shared/result/domain/update.result";
 
 export abstract class ShopRepository {
-    abstract getAllShopItems(): Promise<ShopItem[]>
+    abstract getAllProducts(): Promise<Product[]>
 
-    abstract getSpecificShopItem(id: string): Promise<ShopItem>
+    abstract getProductById(id: string): Promise<Product>
 
-    abstract createShopItem(shopItem: ShopItem): void
+    abstract createProduct(product: CreateProductDto): void
 
-    abstract modifyShopItem(id: string, shopItem: UpdateShopItemDto): void
+    abstract modifyProductById(id: string, product: UpdateProductDto): Promise<UpdateResult>
 
-    abstract deleteShopItem(id: string): void
+    abstract deleteProductById(id: string): Promise<UpdateResult>
 }

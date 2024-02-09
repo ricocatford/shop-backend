@@ -1,45 +1,45 @@
 import { Injectable } from '@nestjs/common';
 import { InjectDataSource } from '@nestjs/typeorm';
 import { DataSource } from 'typeorm';
-
-import ShopItem from '../domain/shop-item';
-import UpdateShopItemDto from '../domain/dto/update-shop-item.dto';
-
 import { ResultSetHeader } from 'mysql2';
-import { UpdateResult } from 'src/shared/result/domain/update.result';
 
+import Product from '../domain/product';
+import { UpdateProductDto } from '../domain/dto/update-product.dto';
+import { CreateProductDto } from '../domain/dto/create-product.dto';
+import { UpdateResult } from 'src/shared/result/domain/update.result';
+import { ShopRepository } from '../domain/shop-repository';
 
 @Injectable()
-export class ShopSqlRepository {
+export class ShopSqlRepository implements ShopRepository {
     constructor(@InjectDataSource() private readonly dataSource: DataSource) { }
 
-    async getAllShopItems(): Promise<ShopItem[]> {
+    async getAllProducts(): Promise<Product[]> {
         return this.dataSource.query("SELECT * from products;");
     }
 
-    async getSpecificShopItem(id: string): Promise<ShopItem> {
+    async getProductById(id: string): Promise<Product> {
         return this.dataSource.query(`SELECT * from products WHERE id="${id}";`);
     }
 
-    async createShopItem(shopItem: ShopItem) {
-        this.dataSource.query(`INSERT INTO products (id, name, description, price) VALUES("${shopItem.id}", "${shopItem.name}", "${shopItem.description}", ${shopItem.price});`);
+    async createProduct(product: CreateProductDto) {
+        this.dataSource.query(`INSERT INTO products (id, name, description, price) VALUES("${product.id}", "${product.name}", "${product.description}", ${product.price});`);
     }
 
-    async modifyShopItem(id: string, shopItem: UpdateShopItemDto): Promise<UpdateResult> {
-        const queryResult: ResultSetHeader = await this.dataSource.query<ResultSetHeader>(`UPDATE products SET name="${shopItem.name}", description="${shopItem.description}", price=${shopItem.price} WHERE id="${id}";`)
+    async modifyProductById(id: string, product: UpdateProductDto): Promise<UpdateResult> {
+        const queryResult: ResultSetHeader = await this.dataSource.query<ResultSetHeader>(`UPDATE products SET name="${product.name}", description="${product.description}", price=${product.price} WHERE id="${id}";`)
         const affectedRows = queryResult.affectedRows;
         if (affectedRows === 0) {
-            return UpdateResult.NOT_FOUND;
+            return UpdateResult.NotFound;
         }
-        return UpdateResult.UPDATED;
+        return UpdateResult.Updated;
     }
 
-    async deleteShopItem(id: string): Promise<UpdateResult> {
+    async deleteProductById(id: string): Promise<UpdateResult> {
         const queryResult: ResultSetHeader = await this.dataSource.query<ResultSetHeader>(`DELETE FROM products WHERE id="${id}";`);
         const affectedRows = queryResult.affectedRows;
         if (affectedRows === 0) {
-            return UpdateResult.NOT_FOUND;
+            return UpdateResult.NotFound;
         }
-        return UpdateResult.UPDATED;
+        return UpdateResult.Updated;
     }
 }

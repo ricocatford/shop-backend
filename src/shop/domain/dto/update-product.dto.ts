@@ -1,5 +1,4 @@
-export default interface ShopItem {
-    id: number;
+export class UpdateProductDto {
     name: string;
     description: string;
     price: number;

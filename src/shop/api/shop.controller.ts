@@ -2,43 +2,43 @@ import { Controller, Get, Post, Put, Delete, Body, Param, HttpException, HttpSta
 //SERVICES
 import { ShopService } from '../application/shop.service';
 //DTOS
-import CreateShopItemDto from '../domain/dto/create-shop-item.dto';
-import UpdateShopItemDto from '../domain/dto/update-shop-item.dto';
-//INTERFACES
-import ShopItem from '../domain/shop-item';
-import { UpdateResult } from 'src/shared/result/domain/update.result';
+import { UpdateProductDto } from '../domain/dto/update-product.dto';
+import { CreateProductDto } from '../domain/dto/create-product.dto';
 
+//INTERFACES
+import Product from '../domain/product';
+import { UpdateResult } from 'src/shared/result/domain/update.result';
 @Controller("shop")
 export class ShopController {
     constructor(private readonly shopService: ShopService) { }
 
     @Get()
-    async getAllShopItems(): Promise<ShopItem[]> {
-        return this.shopService.getAllShopItems();
+    async getAllShopItems(): Promise<Product[]> {
+        return this.shopService.getAllProducts();
     }
 
     @Get(":id")
-    async getSpecificShopItem(@Param("id") id: string): Promise<ShopItem> {
-        return this.shopService.getSpecificShopItem(id);
+    async getSpecificShopItem(@Param("id") id: string): Promise<Product> {
+        return this.shopService.getProduct(id);
     }
 
     @Post()
-    async createShopItem(@Body() createShopItemDto: CreateShopItemDto): Promise<void> {
-        return this.shopService.createShopItem(createShopItemDto);
+    async createShopItem(@Body() product: CreateProductDto): Promise<void> {
+        return this.shopService.createProduct(product);
     }
 
     @Put(":id")
-    async modifyShopItem(@Param("id") id: string, @Body() updateShopItemDto: UpdateShopItemDto): Promise<void> {
-        const result: UpdateResult = await this.shopService.modifyShopItem(id, updateShopItemDto);
-        if (result === UpdateResult.NOT_FOUND) {
+    async modifyShopItem(@Param("id") id: string, @Body() updateShopItemDto: UpdateProductDto): Promise<void> {
+        const result: UpdateResult = await this.shopService.modifyProductById(id, updateShopItemDto);
+        if (result === UpdateResult.NotFound) {
             throw new HttpException("Not modified.", HttpStatus.NOT_FOUND)
         }
     }
 
     @Delete(":id")
     async deleteShopItem(@Param("id") id: string): Promise<void> {
-        const result: UpdateResult = await this.shopService.deleteShopItem(id);
-        if (result === UpdateResult.NOT_FOUND) {
+        const result: UpdateResult = await this.shopService.deleteProductById(id);
+        if (result === UpdateResult.NotFound) {
             throw new HttpException("Not modified.", HttpStatus.NOT_FOUND)
         }
     }
