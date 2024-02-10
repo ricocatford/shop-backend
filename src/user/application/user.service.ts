@@ -12,7 +12,7 @@ export class UserService {
         return this.userRepository.getUserById(id);
     }
 
-    async createUser(user: CreateUserDto): Promise<void> {
+    async createUser(user: CreateUserDto) {
         this.userRepository.createUser(user);
     }
 }
