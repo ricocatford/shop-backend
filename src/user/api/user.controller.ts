@@ -1,7 +1,8 @@
-import { Controller, Get, Param, Post, Body } from '@nestjs/common';
+import { Controller, Get, Param, Post, Body, HttpException, HttpStatus } from '@nestjs/common';
 
 import { UserService } from '../application/user.service';
 import { CreateUserDto } from '../domain/dto/create-user.dto';
+import { CreateUserError } from '../domain/create-user-error';
 
 @Controller("user")
 export class UserController {
@@ -13,7 +14,19 @@ export class UserController {
     }
 
     @Post()
-    async createUser(@Body() user: CreateUserDto) {
-        return this.userService.createUser(user);
+    async createUser(@Body() user: CreateUserDto): Promise<void> {
+        const result: CreateUserError[] | any = await this.userService.createUser(user);
+
+        if (result.includes(CreateUserError.EmailAlreadyInUse) && result.includes(CreateUserError.NameAlreadyInUse)) {
+            throw new HttpException("Name and Email already in use, please choose another one.", HttpStatus.CONFLICT);
+        }
+
+        if (result.includes(CreateUserError.EmailAlreadyInUse)) {
+            throw new HttpException("Email already in use, please choose another one.", HttpStatus.CONFLICT);
+        }
+
+        if (result.includes(CreateUserError.NameAlreadyInUse)) {
+            throw new HttpException("Name already in use, please choose another one.", HttpStatus.CONFLICT);
+        }
     }
 }

@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 
 import Product from '../domain/product';
-import { ShopRepository } from '../domain/shop-repository';
+import { ShopRepository } from '../domain/shop.repository';
 import { UpdateProductDto } from '../domain/dto/update-product.dto';
 import { CreateProductDto } from '../domain/dto/create-product.dto';
 import { UpdateResult } from 'src/shared/result/domain/update.result';

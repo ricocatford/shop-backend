@@ -8,12 +8,12 @@ import { AuthModule } from './auth/auth.module';
 
 import { ShopController } from './shop/api/shop.controller';
 import { ShopService } from './shop/application/shop.service';
-import { ShopRepository } from './shop/domain/shop-repository';
+import { ShopRepository } from './shop/domain/shop.repository';
 import { ShopSqlRepository } from './shop/infrastructure/shop.sql.repository';
 
 import { UserController } from './user/api/user.controller';
 import { UserService } from './user/application/user.service';
-import { UserRepository } from './user/domain/user-repository';
+import { UserRepository } from './user/domain/user.repository';
 import { UserSqlRepository } from './user/infrastructure/user.sql.repository';
 
 @Module({

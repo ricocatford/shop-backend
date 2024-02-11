@@ -7,7 +7,7 @@ import Product from '../domain/product';
 import { UpdateProductDto } from '../domain/dto/update-product.dto';
 import { CreateProductDto } from '../domain/dto/create-product.dto';
 import { UpdateResult } from 'src/shared/result/domain/update.result';
-import { ShopRepository } from '../domain/shop-repository';
+import { ShopRepository } from '../domain/shop.repository';
 
 @Injectable()
 export class ShopSqlRepository implements ShopRepository {
