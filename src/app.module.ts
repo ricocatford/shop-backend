@@ -4,7 +4,7 @@ import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { DataSource } from 'typeorm';
 
-import { AuthModule } from './auth/auth.module';
+import { AuthModule } from './auth/api/auth.module';
 
 import { ShopController } from './shop/api/shop.controller';
 import { ShopService } from './shop/application/shop.service';

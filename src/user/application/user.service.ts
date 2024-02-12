@@ -9,8 +9,8 @@ import { CreateUserError } from '../domain/create-user-error';
 export class UserService {
     constructor(private readonly userRepository: UserRepository) { }
 
-    async getUserById(id: string): Promise<User> {
-        return this.userRepository.getUserById(id);
+    async getUserByEmail(email: string): Promise<User | undefined> {
+        return this.userRepository.getUserByEmail(email);
     }
 
     async createUser(user: CreateUserDto): Promise<CreateUserError[] | void> {

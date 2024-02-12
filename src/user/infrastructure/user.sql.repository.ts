@@ -13,8 +13,9 @@ import { CreateUserError } from "../domain/create-user-error";
 export class UserSqlRepository implements UserRepository {
     constructor(@InjectDataSource() private readonly dataSource: DataSource) { }
 
-    async getUserById(id: string): Promise<any> {
-        return this.dataSource.query(`SELECT * from users WHERE id="${id}";`);
+    async getUserByEmail(email: string): Promise<User | undefined> {
+        const query = this.dataSource.query(`SELECT * from users WHERE email="${email}";`);
+        return query;
     }
 
     async createUser(user: CreateUserDto): Promise<CreateUserError[] | void> {
