@@ -18,16 +18,18 @@ export class UserController {
     async createUser(@Body() user: CreateUserDto): Promise<void> {
         const result: CreateUserError[] | any = await this.userService.createUser(user);
 
-        if (result.includes(CreateUserError.EmailAlreadyInUse) && result.includes(CreateUserError.NameAlreadyInUse)) {
-            throw new HttpException("Name and Email already in use, please choose another one.", HttpStatus.CONFLICT);
-        }
+        if (result) {
+            if (result.includes(CreateUserError.EmailAlreadyInUse) && result.includes(CreateUserError.NameAlreadyInUse)) {
+                throw new HttpException("Name and Email already in use, please choose another one.", HttpStatus.CONFLICT);
+            }
 
-        if (result.includes(CreateUserError.EmailAlreadyInUse)) {
-            throw new HttpException("Email already in use, please choose another one.", HttpStatus.CONFLICT);
-        }
+            if (result.includes(CreateUserError.EmailAlreadyInUse)) {
+                throw new HttpException("Email already in use, please choose another one.", HttpStatus.CONFLICT);
+            }
 
-        if (result.includes(CreateUserError.NameAlreadyInUse)) {
-            throw new HttpException("Name already in use, please choose another one.", HttpStatus.CONFLICT);
+            if (result.includes(CreateUserError.NameAlreadyInUse)) {
+                throw new HttpException("Name already in use, please choose another one.", HttpStatus.CONFLICT);
+            }
         }
     }
 }
