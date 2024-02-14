@@ -14,10 +14,10 @@ export class UserSqlRepository implements UserRepository {
     constructor(@InjectDataSource() private readonly dataSource: DataSource) { }
 
     async getUserByEmail(email: string): Promise<User | undefined> {
-        const userQueryResult: User[] | any = await this.dataSource.query(`SELECT * from users WHERE email="${email}";`);
+        const userQueryResult: User[] | undefined = await this.dataSource.query(`SELECT * from users WHERE email="${email}";`);
 
         if (userQueryResult != undefined) {
-            const user: User = userQueryResult.pop();
+            const user: User | undefined = userQueryResult.pop();
             return user;
         }
     }
