@@ -24,12 +24,13 @@ export class ShopController {
         return this.shopService.getProduct(id);
     }
 
-    @Post()
     @Roles(Role.Admin)
+    @Post()
     async createShopItem(@Body() product: CreateProductDto): Promise<void> {
         return this.shopService.createProduct(product);
     }
 
+    @Roles(Role.Admin)
     @Put(":id")
     async modifyShopItem(@Param("id") id: string, @Body() updateShopItemDto: UpdateProductDto): Promise<void> {
         const result: UpdateResult = await this.shopService.updateProductById(id, updateShopItemDto);
@@ -38,6 +39,7 @@ export class ShopController {
         }
     }
 
+    @Roles(Role.Admin)
     @Delete(":id")
     async deleteShopItem(@Param("id") id: string): Promise<void> {
         const result: UpdateResult = await this.shopService.deleteProductById(id);
