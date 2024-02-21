@@ -6,16 +6,19 @@ import { UpdateProductDto } from '../domain/dto/update-product.dto';
 import { CreateProductDto } from '../domain/dto/create-product.dto';
 import { UpdateResult } from 'src/shared/result/domain/update.result';
 import { Roles } from 'src/auth/application/roles.decorator';
-import { Role } from 'src/auth/domain/roles';
+import { Role } from 'src/auth/domain/role';
+import { Public } from 'src/auth/application/public.decorator';
 @Controller("shop")
 export class ShopController {
     constructor(private readonly shopService: ShopService) { }
 
+    @Public()
     @Get()
     async getAllShopItems(): Promise<Product[]> {
         return this.shopService.getAllProducts();
     }
 
+    @Public()
     @Get(":id")
     async getSpecificShopItem(@Param("id") id: string): Promise<Product> {
         return this.shopService.getProduct(id);

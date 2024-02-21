@@ -4,6 +4,7 @@ import { UserService } from '../application/user.service';
 import { CreateUserDto } from '../domain/dto/create-user.dto';
 import { CreateUserError } from '../domain/create-user-error';
 import User from '../domain/user';
+import { Public } from 'src/auth/application/public.decorator';
 
 @Controller("user")
 export class UserController {
@@ -14,6 +15,7 @@ export class UserController {
         return this.userService.getUserByEmail(email);
     }
 
+    @Public()
     @Post()
     async createUser(@Body() user: CreateUserDto): Promise<void> {
         const result: CreateUserError[] | any = await this.userService.createUser(user);
