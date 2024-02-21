@@ -5,6 +5,8 @@ import Product from '../domain/product';
 import { UpdateProductDto } from '../domain/dto/update-product.dto';
 import { CreateProductDto } from '../domain/dto/create-product.dto';
 import { UpdateResult } from 'src/shared/result/domain/update.result';
+import { Roles } from 'src/auth/application/roles.decorator';
+import { Role } from 'src/auth/domain/roles';
 @Controller("shop")
 export class ShopController {
     constructor(private readonly shopService: ShopService) { }
@@ -20,6 +22,7 @@ export class ShopController {
     }
 
     @Post()
+    @Roles(Role.Admin)
     async createShopItem(@Body() product: CreateProductDto): Promise<void> {
         return this.shopService.createProduct(product);
     }

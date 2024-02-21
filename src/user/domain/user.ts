@@ -1,4 +1,4 @@
-import { Roles } from "./roles";
+import { Role } from "../../auth/domain/role";
 
 export default interface User {
     id: string,
@@ -6,5 +6,5 @@ export default interface User {
     password: string,
     email: string,
     joinDate: Date,
-    role: Roles
+    role: Role
 }
