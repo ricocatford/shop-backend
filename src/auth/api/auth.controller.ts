@@ -2,7 +2,7 @@ import { Post, Body, Controller, HttpCode, HttpStatus, UseGuards, Get, Request }
 
 import { AuthService } from '../application/auth.service';
 import { SignInDto } from '../domain/dto/sign-in.dto';
-import { Public } from '../application/public.decorator';
+import { Public } from '../infrastructure/public.decorator';
 
 @Controller("auth")
 export class AuthController {

@@ -1,10 +1,10 @@
-import { Controller, Get, Param, Post, Body, HttpException, HttpStatus } from '@nestjs/common';
+import { Controller, Get, Post, Body, HttpException, HttpStatus } from '@nestjs/common';
 
 import { UserService } from '../application/user.service';
 import { CreateUserDto } from '../domain/dto/create-user.dto';
 import { CreateUserError } from '../domain/create-user-error';
 import User from '../domain/user';
-import { Public } from 'src/auth/application/public.decorator';
+import { Public } from 'src/auth/infrastructure/public.decorator';
 
 @Controller("user")
 export class UserController {

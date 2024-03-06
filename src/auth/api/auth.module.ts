@@ -6,8 +6,8 @@ import "dotenv/config";
 import { AuthController } from './auth.controller';
 import { AuthService } from '../application/auth.service';
 import { UserModule } from 'src/user/api/user.module';
-import { RolesGuard } from '../application/roles.guard';
-import { AuthGuard } from '../application/auth.guard';
+import { RolesGuard } from '../infrastructure/roles.guard';
+import { AuthGuard } from '../infrastructure/auth.guard';
 
 @Module({
 	imports: [
