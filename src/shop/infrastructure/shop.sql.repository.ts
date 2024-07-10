@@ -22,7 +22,9 @@ export class ShopSqlRepository implements ShopRepository {
     }
 
     async createProduct(product: CreateProductDto) {
-        this.dataSource.query(`INSERT INTO products (id, name, description, price) VALUES("${product.id}", "${product.name}", "${product.description}", ${product.price});`);
+        const ingredients: string = JSON.stringify(product.ingredients);
+
+        this.dataSource.query(`INSERT INTO products (id, name, description, price, ingredients) VALUES("${product.id}", "${product.name}", "${product.description}", ${product.price}, '${ingredients}');`);
     }
 
     async updateProductById(id: string, product: UpdateProductDto): Promise<UpdateResult> {
